@@ -77,7 +77,7 @@ public class WordCountHash {
         
         try(IgniteDataStreamer<String, Long> stmr = ignite.dataStreamer("default")){
         	stmr.allowOverwrite(true);
-        	stmr.receiver(new UpdateValue());
+        	stmr.receiver(new UpdateValue5());
         	for(Entry<String, Long> entry : mappa.entrySet()){
         		stmr.addData(entry.getKey(),entry.getValue());
         	}
@@ -87,11 +87,15 @@ public class WordCountHash {
 	 	
     }
     
-    public static class UpdateValue extends StreamTransformer<String, Long> {
+    public static class UpdateValue5 extends StreamTransformer<String, Long> {
+    	int count=0;
         @Override
         public Object process(MutableEntry<String, Long> e, Object... arg) throws EntryProcessorException {
-            Long val = e.getValue();
-            e.setValue(val == null ? 1L : val + 1);
+        	Long streamed = (Long) arg[count];
+        	Long val = e.getValue();
+        	System.out.println(streamed);
+        	e.setValue(val == null ? 1 : val + 1);
+        	count++;
             return null;
         }
     }

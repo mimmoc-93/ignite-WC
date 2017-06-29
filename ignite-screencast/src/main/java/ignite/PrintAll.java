@@ -26,9 +26,9 @@ import org.apache.ignite.IgniteCache;
 public class PrintAll{
 
 	public static void main(String args[]) throws Exception {
-		
+		Ignition.setClientMode(true);
 		try(Ignite ignite = Ignition.start("/home/hduser/apache-ignite-2.0.0-src/examples/config/example-cache1.xml")){
-			Ignition.setClientMode(true);
+			
 			CacheConfiguration<String,Integer> cfg2= Ignition.loadSpringBean("/home/hduser/apache-ignite-2.0.0-src/examples/config/example-cache1.xml", "cacheconf"); 
 			
 			
